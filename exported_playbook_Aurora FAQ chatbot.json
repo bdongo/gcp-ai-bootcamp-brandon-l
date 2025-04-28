@@ -1,0 +1,108 @@
+{
+  "playbook": {
+    "playbook": {
+      "displayName": "Aurora FAQ chatbot",
+      "goal": "you are the towns chat bot. Answer all FAQs effeciently.",
+      "steps": [ {
+        "text": "Greet the user and answer their question."
+      } ],
+      "tools": [ "36151f37-6ef1-4b50-bb12-ff1b0bc34172", "fd1e9a5e-e360-410d-b770-8ed2fbab7530" ],
+      "etag": "680ff0e0",
+      "playbookId": "00000000-0000-0000-0000-000000000000",
+      "tokenCount": 26,
+      "playbookType": "WORKFLOW",
+      "codeBlock": {
+      
+      }
+    },
+    "tools": [ {
+      "id": "36151f37-6ef1-4b50-bb12-ff1b0bc34172",
+      "displayName": "aurora bay faq",
+      "etag": "680ff08e",
+      "dataStoreTool": {
+        "dataStoreConnections": [ {
+          "dataStoreType": "UNSTRUCTURED",
+          "dataStore": "projects/953893243677/locations/us/collections/default_collection/dataStores/aurora-faq-data-store_1745875061610",
+          "documentProcessingMode": "DOCUMENTS",
+          "engineType": "CHAT_ENGINE",
+          "connectorConfig": {
+          
+          },
+          "createTime": {
+            "seconds": 1745875064,
+            "nanos": 888650000
+          },
+          "displayName": "Aurora FAQ data store",
+          "dialogflowAddTime": {
+            "seconds": 1745875085,
+            "nanos": 660000000
+          }
+        } ],
+        "models": {
+          "summarizationModel": {
+          
+          },
+          "rewriterModel": {
+          
+          }
+        },
+        "fallbackPrompt": {
+        
+        },
+        "groundingSettings": {
+        
+        },
+        "payloadSettings": {
+        
+        },
+        "voiceModeSettings": {
+        
+        }
+      }
+    }, {
+      "id": "fd1e9a5e-e360-410d-b770-8ed2fbab7530",
+      "displayName": "faq",
+      "etag": "680ff0ca",
+      "dataStoreTool": {
+        "dataStoreConnections": [ {
+          "dataStoreType": "UNSTRUCTURED",
+          "dataStore": "projects/953893243677/locations/us/collections/default_collection/dataStores/aurora-faq-data-store_1745875061610",
+          "documentProcessingMode": "DOCUMENTS",
+          "engineType": "CHAT_ENGINE",
+          "connectorConfig": {
+          
+          },
+          "createTime": {
+            "seconds": 1745875064,
+            "nanos": 888650000
+          },
+          "displayName": "Aurora FAQ data store",
+          "dialogflowAddTime": {
+            "seconds": 1745875146,
+            "nanos": 727000000
+          }
+        } ],
+        "models": {
+          "summarizationModel": {
+          
+          },
+          "rewriterModel": {
+          
+          }
+        },
+        "fallbackPrompt": {
+        
+        },
+        "groundingSettings": {
+        
+        },
+        "payloadSettings": {
+        
+        },
+        "voiceModeSettings": {
+        
+        }
+      }
+    } ]
+  }
+}
