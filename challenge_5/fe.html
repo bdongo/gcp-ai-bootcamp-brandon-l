@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alaska Chatbot</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        textarea {
+            width: 95%;
+            /* Adjusted width */
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            min-height: 80px;
+            /* Set a minimum height */
+            resize: vertical;
+            /* Allow vertical resizing */
+            display: block;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        #responseArea {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e9ecef;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            /* Preserves whitespace and wraps text */
+            min-height: 50px;
+            /* Ensure it's visible even when empty */
+            overflow-x: auto;
+            /* Add scroll if content is too wide */
+        }
+
+        #status {
+            margin-top: 10px;
+            font-style: italic;
+            color: #666;
+            min-height: 1.2em;
+            /* Reserve space for status */
+        }
+
+        .error {
+            color: #dc3545;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Alaska Chatbot Interface</h1>
+
+        <label for="userInput">Enter your question:</label>
+        <textarea id="userInput" placeholder="Ask about Alaska or the weather in Kodiak..."></textarea>
+
+        <button id="submitBtn">Ask Gemini</button>
+
+        <div id="status"></div>
+
+        <h2>Response:</h2>
+        <pre id="responseArea">The model's response will appear here.</pre>
+    </div>
+
+    <script>
+        const userInput = document.getElementById('userInput');
+        const submitBtn = document.getElementById('submitBtn');
+        const responseArea = document.getElementById('responseArea');
+        const statusDiv = document.getElementById('status');
+
+        submitBtn.addEventListener('click', async () => {
+            const inputText = userInput.value.trim();
+            if (!inputText) {
+                statusDiv.textContent = 'Please enter some text.';
+                statusDiv.className = 'error'; // Apply error style
+                return;
+            }
+
+            // Clear previous status/response and disable button
+            responseArea.textContent = '';
+            statusDiv.textContent = 'Processing...';
+            statusDiv.className = ''; // Reset style
+            submitBtn.disabled = true;
+
+            try {
+                const response = await fetch('/https://be-server-953893243677.us-central1.run.app', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ user_input: inputText }),
+                });
+
+                // Clear status once response starts coming back
+                statusDiv.textContent = '';
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    responseArea.textContent = data.response || 'Received an empty response.';
+                } else {
+                    // Display error from backend JSON response
+                    responseArea.textContent = `Error: ${data.error || 'Unknown error from server.'}`;
+                    statusDiv.textContent = `Failed with status: ${response.status}`;
+                    statusDiv.className = 'error';
+                }
+
+            } catch (error) {
+                console.error('Fetch error:', error);
+                statusDiv.textContent = `Network or client-side error: ${error.message}`;
+                statusDiv.className = 'error';
+                responseArea.textContent = 'Failed to communicate with the server.';
+            } finally {
+                // Re-enable button
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+
+</html>
